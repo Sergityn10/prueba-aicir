@@ -4,7 +4,6 @@
 Este proyecto es un prototipo full-stack desarrollado para dar respuesta al caso práctico de gestión de órdenes de reparación en un taller de bicicletas. Permite registrar bicicletas recibidas, diagnosticar el problema, consultar el estado de cada reparación y gestionarlo a lo largo de su ciclo de vida (**Pendiente**, **En reparación**, **Terminada**).
 
 > 💡 **Documentación de Entrega y Arquitectura**:
-> - [**CORREO_ENTREGA_AICIR.md**](./CORREO_ENTREGA_AICIR.md): Plantilla de correo lista para enviar al equipo de selección resumiendo el trabajo realizado y las propuestas de valor.
 > - [**PROPUESTA_MEJORAS_Y_ARQUITECTURA.md**](./PROPUESTA_MEJORAS_Y_ARQUITECTURA.md): Propuesta integral de evolución empresarial: **Ciberseguridad en profundidad (OWASP, JWT/MFA), Cifrado Asimétrico RSA-256 + AES-GCM (Envelope Encryption), Modelo RBAC/ABAC granular, Arquitectura Hexagonal y Microservicio de Notificaciones (SMS y Correo) con RabbitMQ, Normalización del Catálogo de Bicicletas (Modelo Automoción), Observabilidad y Roadmap de producción**.
 
 ---
@@ -70,12 +69,12 @@ erDiagram
 
 El acceso a la información debe segmentarse mediante **Control de Acceso Basado en Roles (RBAC)** con el principio de mínimo privilegio:
 
-| Rol de Usuario | Datos Técnicos de Reparación (`Bicicleta`, `Avería`, `Estado`) | Datos de Contacto del Cliente (`Teléfono`, `Email`, `Nombre`) | Justificación de Negocio y Privacidad |
-| :--- | :---: | :---: | :--- |
-| **👨‍🔧 Mecánico / Operario de Taller** | **Lectura y Escritura** | ❌ **Sin Acceso** | El mecánico solo necesita saber qué reparar y en qué caballete trabajar. Ocultar los datos personales previene filtraciones en el taller. |
-| **💼 Recepción / Atención al Cliente** | **Lectura y Escritura** | **Lectura y Escritura** | Personal encargado de recibir la bici, validar presupuestos y contactar al cliente cuando el estado pase a *«Terminada»*. |
-| **📊 Administración / Gerencia** | **Lectura (Métricas)** | ❌ **Solo Anonimizado** | Análisis de rendimiento (tiempos medios de reparación, volumen de averías) sin necesidad de consultar PII. |
-| **🛡️ Delegado de Protección (DPO/Admin)** | **Auditoría** | **Gestión / Auditoría** | Tramitación de derechos RGPD, borrado de clientes y revisión de registros de acceso. |
+| Rol de Usuario                           | Datos Técnicos de Reparación (`Bicicleta`, `Avería`, `Estado`) | Datos de Contacto del Cliente (`Teléfono`, `Email`, `Nombre`) | Justificación de Negocio y Privacidad                                                                                                     |
+| :--------------------------------------- | :------------------------------------------------------------: | :-----------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| **👨‍🔧 Mecánico / Operario de Taller**      |                    **Lectura y Escritura**                     |                       ❌ **Sin Acceso**                        | El mecánico solo necesita saber qué reparar y en qué caballete trabajar. Ocultar los datos personales previene filtraciones en el taller. |
+| **💼 Recepción / Atención al Cliente**    |                    **Lectura y Escritura**                     |                    **Lectura y Escritura**                    | Personal encargado de recibir la bici, validar presupuestos y contactar al cliente cuando el estado pase a *«Terminada»*.                 |
+| **📊 Administración / Gerencia**          |                     **Lectura (Métricas)**                     |                    ❌ **Solo Anonimizado**                     | Análisis de rendimiento (tiempos medios de reparación, volumen de averías) sin necesidad de consultar PII.                                |
+| **🛡️ Delegado de Protección (DPO/Admin)** |                         **Auditoría**                          |                    **Gestión / Auditoría**                    | Tramitación de derechos RGPD, borrado de clientes y revisión de registros de acceso.                                                      |
 
 #### Medidas de Seguridad adicionales recomendadas:
 - **Cifrado**: Cifrado en reposo para campos sensibles (`AES-256` para teléfonos y emails) y en tránsito mediante HTTPS/TLS.
