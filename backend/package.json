@@ -1,0 +1,18 @@
+{
+  "name": "backend-bicis",
+  "version": "1.0.0",
+  "description": "Backend API para la gestión de reparaciones del taller de bicicletas",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test-backend.js",
+    "generate:keys": "node scripts/generate-rsa-keys.js",
+    "demo:crypto": "node scripts/demo-envelope-encryption.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
