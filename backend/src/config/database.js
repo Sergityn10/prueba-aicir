@@ -10,7 +10,18 @@ const DB_PATH = process.env.DB_PATH || path.resolve(__dirname, "../../taller.db"
 // Instancia única y persistente de base de datos local SQLite
 export const db = new DatabaseSync(DB_PATH);
 
-console.log(` Connected to native SQLite database at: ${DB_PATH}`);
+// Configuración de alto rendimiento, tolerancia a bloqueos y concurrencia segura
+try {
+  db.exec("PRAGMA journal_mode = WAL;");
+  db.exec("PRAGMA busy_timeout = 5000;");
+  db.exec("PRAGMA foreign_keys = ON;");
+} catch (e) {
+  // Pragma fallback si la plataforma tiene restricciones
+}
+
+if (process.env.NODE_ENV !== "test") {
+  console.log(` Connected to native SQLite database at: ${DB_PATH}`);
+}
 
 /**
  * Inicializa las tablas necesarias y semillas de datos si la base de datos está vacía.
@@ -47,9 +58,11 @@ export function initDatabase() {
   // 3. Semillas de Clientes Ficticios
   const countClientes = db.prepare("SELECT COUNT(*) AS total FROM clientes").get();
   if (countClientes.total === 0) {
-    console.log("🌱 Insertando clientes iniciales ficticios...");
+    if (process.env.NODE_ENV !== "test") {
+      console.log("🌱 Insertando clientes iniciales ficticios...");
+    }
     const insertCliente = db.prepare(`
-      INSERT INTO clientes (codigo_cliente, nombre_cliente, telefono_cliente)
+      INSERT OR IGNORE INTO clientes (codigo_cliente, nombre_cliente, telefono_cliente)
       VALUES (?, ?, ?)
     `);
 
@@ -68,7 +81,9 @@ export function initDatabase() {
   // 4. Semillas de Reparaciones Ficticias
   const countRow = db.prepare("SELECT COUNT(*) AS total FROM reparaciones").get();
   if (countRow.total === 0) {
-    console.log("🌱 Insertando órdenes iniciales con datos 100% ficticios...");
+    if (process.env.NODE_ENV !== "test") {
+      console.log("🌱 Insertando órdenes iniciales con datos 100% ficticios...");
+    }
     const seedInsert = db.prepare(`
       INSERT INTO reparaciones (codigo_cliente, nombre_cliente, telefono_cliente, descripcion_bici, problema, estado)
       VALUES (?, ?, ?, ?, ?, ?)
@@ -84,6 +99,8 @@ export function initDatabase() {
     for (const item of seedData) {
       seedInsert.run(...item);
     }
-    console.log(" Datos semilla sintéticos inicializados correctamente.");
+    if (process.env.NODE_ENV !== "test") {
+      console.log(" Datos semilla sintéticos inicializados correctamente.");
+    }
   }
 }
