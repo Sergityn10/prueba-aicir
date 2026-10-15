@@ -1,0 +1,25 @@
+{
+  "name": "prueba-aicir-taller-bicis",
+  "version": "1.0.0",
+  "description": "Caso práctico: Gestión de reparaciones de un taller de bicicletas - Proceso de selección PRET/TR3S60 en aicir",
+  "private": true,
+  "scripts": {
+    "start:backend": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "test:backend": "npm --prefix backend run test",
+    "start:frontend": "npm --prefix frontend-bicis run dev",
+    "build:frontend": "npm --prefix frontend-bicis run build",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down"
+  },
+  "keywords": [
+    "aicir",
+    "bicicletas",
+    "reparaciones",
+    "react",
+    "express",
+    "sqlite"
+  ],
+  "author": "Sergio",
+  "license": "ISC"
+}
