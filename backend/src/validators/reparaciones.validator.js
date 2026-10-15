@@ -64,7 +64,7 @@ export function validateUpdateEstado(estado) {
   return {
     isValid: errors.length === 0,
     errors,
-    sanitizedEstado: estado ? estado.trim() : null
+    sanitizedEstado: typeof estado === "string" ? estado.trim() : null
   };
 }
 

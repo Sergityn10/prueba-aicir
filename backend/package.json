@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "node test-backend.js",
+    "test": "node --test test/*.test.js",
+    "test:smoke": "node test-backend.js",
     "generate:keys": "node scripts/generate-rsa-keys.js",
     "demo:crypto": "node scripts/demo-envelope-encryption.js"
   },

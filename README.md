@@ -134,9 +134,15 @@ npm start
 ```
 El servidor backend escuchará en `http://localhost:3001`. Creará automáticamente el archivo `taller.db` y cargará 4 órdenes iniciales de prueba.
 
-*Para ejecutar el test automático del backend:*
+*Para ejecutar la suite completa de 55 tests automatizados (E2E, base de datos, validadores y criptografía):*
 ```bash
+# Desde la raíz del proyecto o dentro de /backend:
 npm test
+```
+*También puedes ejecutar el smoke test tradicional o la demo de criptografía:*
+```bash
+npm run test:smoke   # Smoke test rápido
+npm run demo:crypto  # Demostración interactiva de Envelope Encryption con RSA y AES
 ```
 
 #### 2. Arrancar el Frontend:
